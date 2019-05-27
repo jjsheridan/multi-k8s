@@ -9,7 +9,7 @@ script:
   - docker run tjteru/react-test npm test -- --coverage
 
 after_success:
-  - docker bulid -t tjteru/multi-client ./client
+  - docker build -t tjteru/multi-client ./client
   - docker build -t tjteru/multi-nginx ./nginx
   - docker build -t tjteru/multi-server ./server
   - docker build -t tjteru/multi-worker ./worker
