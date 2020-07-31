@@ -14,6 +14,8 @@ services:
     ports:
       - '3050:80'
   api:
+    depends_on:
+      - postgres
     build:
       dockerfile: Dockerfile.dev
       context: ./server
@@ -29,6 +31,7 @@ services:
       - PGPASSWORD=postgres_password
       - PGPORT=5432
   client:
+    stdin_open: true
     build:
       dockerfile: Dockerfile.dev
       context: ./client
