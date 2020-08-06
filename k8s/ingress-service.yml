@@ -3,20 +3,12 @@ kind: Ingress
 metadata:
   name: ingress-service
   annotations: 
-    kubernetes.io/ingress.class: ngnix
-#    nginx.ingress.kubernetes.io/use-regex: 'true'
+    kubernetes.io/ingress.class: 'ngnix'
+    nginx.ingress.kubernetes.io/use-regex: 'true'
     ngnix.ingress.kubernetes.io/rewrite-target: /$1
-    certmanager.k8s.io/cluster-issuer: 'letsencrypt-prod'
-    nginx.ingress.kubernetes.io/ssl-redirect: 'false'
 spec:
-  tls:
-    - hosts:
-        - k8s-multi.com
-        - www.k8s-multi.com
-      secretName: k8s-multi-name
   rules:
-    - host: k8s-multi.com
-      http:
+    - http:
         paths:
           - path: /?(.*)
             backend:
@@ -26,15 +18,3 @@ spec:
             backend:
               serviceName: server-cluster-ip-service
               servicePort: 5000
-    - host: www.k8s-multi.com
-      http:
-        paths:
-          - path: /?(.*)
-            backend:
-              serviceName: client-cluster-ip-service
-              servicePort: 3000
-          - path: /api/?(.*)
-            backend:
-              serviceName: server-cluster-ip-service
-              servicePort: 5000
-      
